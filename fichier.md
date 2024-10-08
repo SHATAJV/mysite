@@ -1,6 +1,7 @@
  
 
 
+
 __________________________________________________________________________________________________
 2.2.2
 1-from polls.models import Question
@@ -52,3 +53,5 @@ choice3.save()
 
 for question in recent_questions:
     print(f"Question: {question.question_text}, Date de publication: {question.pub_date}")
+_____________________________________________________________________________________________
+
