@@ -331,3 +331,57 @@ def statistics_view(request):
 ```
 ![un image result](images/question3_4.png)
 -------------------------------------------------------------------------------------------------
+## in forms.py:
+```python
+ 
+from django import forms
+from .models import Question
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['question_text', 'pub_date']
+        widgets = {
+            'question_text': forms.TextInput(attrs={'class': 'form-control'}),
+            'pub_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
+```
+## in wiews.py:
+
+```python 
+def create_question(request):
+    if request.method == "POST":
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('polls:index')  
+    else:
+        form = QuestionForm()
+    return render(request, 'polls/create_question.html', {'form': form})
+```
+## in urls.py
+```python 
+path('create/', views.create_question, name='create_question'),
+```
+##  create_question.html:
+
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Créer une Question</title>
+</head>
+<body>
+    <h1>Créer une nouvelle question</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Soumettre</button>
+    </form>
+</body>
+</html>
+```
+![un image result](images/question5_1.png)
+-------------------------------------------------------------------------------------------------

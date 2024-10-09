@@ -1,9 +1,22 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
+
+from .forms import QuestionForm
 from .models import Choice, Question
+
+def create_question(request):
+    if request.method == "POST":
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('polls:index')
+    else:
+        form = QuestionForm()
+    return render(request, 'polls/create_question.html', {'form': form})
+
 
 def statistics_view(request):
     total_questions = Question.total_questions()
