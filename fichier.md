@@ -329,4 +329,5 @@ def statistics_view(request):
     <li>Dernière question enregistrée : {{ latest_question.question_text }} (Publié le : {{ latest_question.pub_date }})</li>
 </ul>
 ```
+![un image result](images/question3_4.png)
 -------------------------------------------------------------------------------------------------
