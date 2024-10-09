@@ -6,7 +6,7 @@ admin.site.register(Choice)
 ```
 
 ## 2. Image
-- Oui
+## 3.OUI     
 
 ## 4. Class QuestionAdmin
 
@@ -47,7 +47,7 @@ questions_octobre_2024 = Question.objects.filter(pub_date__year=2024, pub_date__
 for question in questions_octobre_2024:
     print(f"ID: {question.id}, Texte: {question.question_text}, Date de publication: {question.pub_date}")
 ```
-
+![un image result](images/question2_1.png)
 ---------------------------------------------------------------------------------------------
 
 ### 3. Fetch question with ID = 2:
@@ -74,7 +74,7 @@ for question in questions:
     for choice in choices:
         print(f"  Choix: {choice.choice_text}, Votes: {choice.votes}")
 ```
-
+![un image result](images/question2_3.png)
 ---------------------------------------------------------------------------------------------
 
 ### 5. Fetch questions and the number of choices:
@@ -94,7 +94,7 @@ questions = Question.objects.all().order_by('-pub_date')
 for question in questions:
     print(f"Question: {question.question_text}, Date de publication: {question.pub_date}")
 ```
-
+![un image result](images/question2_5.png)
 ---------------------------------------------------------------------------------------------
 
 ### 9. Create a new question:
