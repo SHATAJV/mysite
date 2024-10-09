@@ -160,7 +160,7 @@ class AllPollsView(generic.ListView):
         return Question.objects.order_by("-pub_date")
 ```
 
-In urls.py:
+## In urls.py:
 
 ```python
 path('all/', views.AllPollsView.as_view(), name='all_polls'),
@@ -204,7 +204,7 @@ class FrequencyView(generic.DetailView):
         return context
 ```
 
-In url.py:
+## In url.py:
 
 ```python
 path("<int:question_id>/frequency/", views.FrequencyView.as_view(), name="frequency"),
