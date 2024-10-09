@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Liste de tous les sondages</h1>
+
+{% if all_questions %}
+    <ul>
+    {% for question in all_questions %}
+        <li>
+            Sondage ID: {{ question.id }} -
+            <a href="{% url 'frequency' question.id %}">{{ question.question_text }}</a>
+            <small>(Publié le : {{ question.pub_date }})</small>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun sondage disponible.</p>
+{% endif %}
+
+</body>
+</html>

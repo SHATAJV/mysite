@@ -4,7 +4,22 @@ from django.urls import reverse
 from django.views import generic
 
 from .models import Choice, Question
+class FrequencyView(generic.DetailView):
+    model = Question
+    template_name = "polls/frequency.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        question = self.get_object()
+        context['choices'] = question.get_choices()
+        return context
+class AllPollsView(generic.ListView):
+    template_name = 'polls/all_polls.html'
+    context_object_name = 'all_questions'
+
+    def get_queryset(self):
+        """Retourne tous les sondages classés par date de publication"""
+        return Question.objects.order_by("-pub_date")
 
 class IndexView(generic.ListView):
     template_name = "polls/index.html"
