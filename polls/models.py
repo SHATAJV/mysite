@@ -15,6 +15,22 @@ class Question(models.Model):
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
+    def get_choices(self):
+
+        total_votes = sum(choice.votes for choice in self.choice_set.all())
+        choices_data = []
+        for choice in self.choice_set.all():
+            if total_votes > 0:
+                percentage = (choice.votes / total_votes) * 100
+            else:
+                percentage = 0
+            choices_data.append({
+                'choice_text': choice.choice_text,
+                'votes': choice.votes,
+                'percentage': percentage
+            })
+        return choices_data
+
 
 class Choice(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)

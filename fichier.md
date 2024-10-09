@@ -204,10 +204,11 @@ class FrequencyView(generic.DetailView):
         return context
 ```
 
-## In url.py:
+## In urls.py:
 
 ```python
 path("<int:question_id>/frequency/", views.FrequencyView.as_view(), name="frequency"),
+ 
 ```
 ##  In frequency.html:
 
@@ -228,4 +229,28 @@ path("<int:question_id>/frequency/", views.FrequencyView.as_view(), name="freque
 {% else %}
     <p>Aucun sondage disponible.</p>
 {% endif %}
+```
+# modifiy all_polls.html: 
+
+```html
+ <a href="{% url 'frequency' question.id %}">{{ question.question_text }}</a>
+```
+## In models.py (class question): 
+```python
+
+    def get_choices(self):
+        
+        total_votes = sum(choice.votes for choice in self.choice_set.all())
+        choices_data = []
+        for choice in self.choice_set.all():
+            if total_votes > 0:
+                percentage = (choice.votes / total_votes) * 100
+            else:
+                percentage = 0
+            choices_data.append({
+                'choice_text': choice.choice_text,
+                'votes': choice.votes,
+                'percentage': percentage
+            })
+        return choices_data
 ```
