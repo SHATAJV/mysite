@@ -196,6 +196,7 @@ Create an HTML file:
 class FrequencyView(generic.DetailView):
     model = Question
     template_name = "polls/frequency.html"
+    pk_url_kwarg = 'question_id'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -207,28 +208,22 @@ class FrequencyView(generic.DetailView):
 ## In urls.py:
 
 ```python
-path("<int:question_id>/frequency/", views.FrequencyView.as_view(), name="frequency"),
+
+ path('<int:question_id>/frequency/', views.FrequencyView.as_view(), name='frequency'),
  
 ```
 ##  In frequency.html:
 
 
 ```html
-<h1>Liste de tous les sondages</h1>
+<h1>Résultats du sondage : {{ question.question_text }}</h1>
 
-{% if all_questions %}
-    <ul>
-    {% for question in all_questions %}
-        <li>
-            Sondage ID: {{ question.id }} - 
-            <a href="{% url 'frequency' question.id %}">{{ question.question_text }}</a>
-            <small>(Publié le : {{ question.pub_date }})</small>
-        </li>
+<ul>
+    {% for choice, votes, percent in choices %}
+        <li>{{ choice.choice_text }} - {{ votes }} ({{ percent }}%)</li>
     {% endfor %}
-    </ul>
-{% else %}
-    <p>Aucun sondage disponible.</p>
-{% endif %}
+</ul>
+
 ```
 # modifiy all_polls.html: 
 
@@ -238,19 +233,15 @@ path("<int:question_id>/frequency/", views.FrequencyView.as_view(), name="freque
 ## In models.py (class question): 
 ```python
 
-    def get_choices(self):
-        
-        total_votes = sum(choice.votes for choice in self.choice_set.all())
-        choices_data = []
-        for choice in self.choice_set.all():
-            if total_votes > 0:
-                percentage = (choice.votes / total_votes) * 100
-            else:
-                percentage = 0
-            choices_data.append({
-                'choice_text': choice.choice_text,
-                'votes': choice.votes,
-                'percentage': percentage
-            })
-        return choices_data
+        def get_choices(self):
+        choices = self.choice_set.all()
+        total_votes = sum(choice.votes for choice in choices)
+        results = []
+        for choice in choices:
+            votes = choice.votes
+            percent = (votes / total_votes * 100) if total_votes > 0 else 0
+            results.append((choice, votes, percent))
+        return results
 ```
+![un image result](images/question3_3png.png)
+---------------------------------------------------------------------------------------

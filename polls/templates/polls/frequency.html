@@ -5,21 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Liste de tous les sondages</h1>
+<h1>Résultats du sondage : {{ question.question_text }}</h1>
 
-{% if all_questions %}
-    <ul>
-    {% for question in all_questions %}
-        <li>
-            Sondage ID: {{ question.id }} -
-            <a href="{% url 'frequency' question.id %}">{{ question.question_text }}</a>
-            <small>(Publié le : {{ question.pub_date }})</small>
-        </li>
+<ul>
+    {% for choice, votes, percent in choices %}
+        <li>{{ choice.choice_text }} - {{ votes }} votes ({{ percent }}% pourcentage)</li>
     {% endfor %}
-    </ul>
-{% else %}
-    <p>Aucun sondage disponible.</p>
-{% endif %}
+</ul>
 
 </body>
 </html>

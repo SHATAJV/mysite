@@ -15,21 +15,16 @@ class Question(models.Model):
     def was_published_recently(self):
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
-    def get_choices(self):
 
-        total_votes = sum(choice.votes for choice in self.choice_set.all())
-        choices_data = []
-        for choice in self.choice_set.all():
-            if total_votes > 0:
-                percentage = (choice.votes / total_votes) * 100
-            else:
-                percentage = 0
-            choices_data.append({
-                'choice_text': choice.choice_text,
-                'votes': choice.votes,
-                'percentage': percentage
-            })
-        return choices_data
+    def get_choices(self):
+        choices = self.choice_set.all()
+        total_votes = sum(choice.votes for choice in choices)
+        results = []
+        for choice in choices:
+            votes = choice.votes
+            percent = (votes / total_votes * 100) if total_votes > 0 else 0
+            results.append((choice, votes, percent))
+        return results
 
 
 class Choice(models.Model):
