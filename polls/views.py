@@ -5,6 +5,26 @@ from django.views import generic
 
 from .models import Choice, Question
 
+def statistics_view(request):
+    total_questions = Question.total_questions()
+    total_choices = Question.total_choices()
+    total_votes = Question.total_votes()
+    average_votes = Question.average_votes()
+    most_popular = Question.most_popular()
+    least_popular = Question.least_popular()
+    latest_question = Question.latest_question()
+
+    context = {
+        'total_questions': total_questions,
+        'total_choices': total_choices,
+        'total_votes': total_votes,
+        'average_votes': average_votes,
+        'most_popular': most_popular,
+        'least_popular': least_popular,
+        'latest_question': latest_question,
+    }
+    return render(request, 'polls/statistics.html', context)
+
 
 class FrequencyView(generic.DetailView):
     model = Question

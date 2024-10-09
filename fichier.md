@@ -245,3 +245,88 @@ class FrequencyView(generic.DetailView):
 ```
 ![un image result](images/question3_3png.png)
 ---------------------------------------------------------------------------------------
+## 3.4: 
+## In models.py (class question): 
+```python
+from django.db.models import Sum
+
+    def total_questions(cls):
+
+        return cls.objects.count()
+
+    @classmethod
+    def total_choices(cls):
+
+        return sum(choice.choice_set.count() for choice in cls.objects.all())
+
+    @classmethod
+    def total_votes(cls):
+
+        return sum(choice.votes for question in cls.objects.prefetch_related('choice_set').all() for choice in
+                   question.choice_set.all())
+
+    @classmethod
+    def average_votes(cls):
+
+        total_votes = cls.total_votes()
+        total_questions = cls.total_questions()
+        return total_votes / total_questions if total_questions > 0 else 0
+
+    @classmethod
+    def most_popular(cls):
+        
+        return cls.objects.annotate(total_votes=Sum('choice__votes')).order_by('-total_votes').first()
+
+    @classmethod
+    def least_popular(cls):
+
+        return cls.objects.annotate(total_votes=Sum('choice__votes')).order_by('total_votes').first()
+
+    @classmethod
+    def latest_question(cls):
+
+        return cls.objects.latest('pub_date')
+
+
+```
+##  In views.py:
+```python
+
+def statistics_view(request):
+    total_questions = Question.total_questions()
+    total_choices = Question.total_choices()
+    total_votes = Question.total_votes()
+    average_votes = Question.average_votes()
+    most_popular = Question.most_popular()
+    least_popular = Question.least_popular()
+    latest_question = Question.latest_question()
+
+    context = {
+        'total_questions': total_questions,
+        'total_choices': total_choices,
+        'total_votes': total_votes,
+        'average_votes': average_votes,
+        'most_popular': most_popular,
+        'least_popular': least_popular,
+        'latest_question': latest_question,
+    }
+    return render(request, 'polls/statistics.html', context)
+```
+## In urls.py:
+```python
+ path('statistics/', views.statistics_view, name='statistics'),
+```
+## in statistics.html : 
+
+```html
+<ul>
+    <li>Nombre total de sondages : {{ total_questions }}</li>
+    <li>Nombre total de choix possibles : {{ total_choices }}</li>
+    <li>Nombre total de votes : {{ total_votes }}</li>
+    <li>Moyenne de votes par sondage : {{ average_votes|floatformat:2 }}</li>
+    <li>Question la plus populaire : {{ most_popular.question_text }} ({{ most_popular.total_votes }} votes)</li>
+    <li>Question la moins populaire : {{ least_popular.question_text }} ({{ least_popular.total_votes }} votes)</li>
+    <li>Dernière question enregistrée : {{ latest_question.question_text }} (Publié le : {{ latest_question.pub_date }})</li>
+</ul>
+```
+-------------------------------------------------------------------------------------------------

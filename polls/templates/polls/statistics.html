@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <li>Nombre total de sondages : {{ total_questions }}</li>
+    <li>Nombre total de choix possibles : {{ total_choices }}</li>
+    <li>Nombre total de votes : {{ total_votes }}</li>
+    <li>Moyenne de votes par sondage : {{ average_votes|floatformat:2 }}</li>
+    <li>Question la plus populaire : {{ most_popular.question_text }} ({{ most_popular.total_votes }} votes)</li>
+    <li>Question la moins populaire : {{ least_popular.question_text }} ({{ least_popular.total_votes }} votes)</li>
+    <li>Dernière question enregistrée : {{ latest_question.question_text }} (Publié le : {{ latest_question.pub_date }})</li>
+</ul>
+</body>
+</html>
