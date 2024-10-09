@@ -143,7 +143,8 @@ ________________________________________________________________________________
 <small>Publié le : {{ question.pub_date }}</small></li>
 ```
 
-Result: (c'est une image)
+![un image result](images/question_3_1.png)
+
 
 -------------------------------------------------------
 
@@ -185,7 +186,7 @@ Create an HTML file:
 {% endif %}
 ```
 
-Result: (c'est une image)
+![un image result](images/question_3_2.png)
 
 ---------------------------------------------------------------------------------
 
@@ -208,8 +209,8 @@ In url.py:
 ```python
 path("<int:question_id>/frequency/", views.FrequencyView.as_view(), name="frequency"),
 ```
+##  In frequency.html:
 
-In frequency.html:
 
 ```html
 <h1>Liste de tous les sondages</h1>
