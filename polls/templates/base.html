@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon site de sondages{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
+<body>
+    <header>
+      <nav>
+                <ul>
+                    <li><a href="{% url 'polls:index' %}">Accueil</a></li>
+                    <li><a href="{% url 'polls:create_question' %}">Ajouter une question</a></li>
+                </ul>
+            </nav>
+    </header>
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mon site de sondages</p>
+    </footer>
+</body>
+</html>

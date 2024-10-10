@@ -388,8 +388,10 @@ path('create/', views.create_question, name='create_question'),
 ## 5.2: in forms.py: 
 
 ```python 
+
 from django import forms
 from .models import Question, Choice
+
 
 class QuestionForm(forms.ModelForm):
     choice1 = forms.CharField(max_length=200, required=True)
@@ -400,7 +402,11 @@ class QuestionForm(forms.ModelForm):
 
     class Meta:
         model = Question
-        fields = ['question_text']
+        fields = ['question_text', 'pub_date']
+        widgets = {
+            'question_text': forms.TextInput(attrs={'class': 'form-control'}),
+            'pub_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
 
     def save(self, commit=True):
         question = super().save(commit)
@@ -417,11 +423,46 @@ class QuestionForm(forms.ModelForm):
                 if choice:
                     Choice.objects.create(question=question, choice_text=choice)
         return question
+
 ```
-![un image result](images/question5_2.png)
+![un image result](images/correction_5_2png.png)
 ------------------------------------------------------------------------------------------------------
 ## 5_3: add in html : 
 ```html
 {% extends "admin/base.html" %}
 ```
 ------------------------------------------------------------------------------------------------------
+## 5_4: 
+## base.html: 
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mon site de sondages{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'polls/style.css' %}">
+</head>
+<body>
+    <header>
+      <nav>
+                <ul>
+                    <li><a href="{% url 'polls:index' %}">Accueil</a></li>
+                    <li><a href="{% url 'polls:create_question' %}">Ajouter une question</a></li>
+                </ul>
+            </nav>
+    </header>
+
+    <main>
+        {% block main %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mon site de sondages</p>
+    </footer>
+</body>
+</html>
+```
+![un image result](images/question5_4.png)
+--------------------------------------------------------------------------------------

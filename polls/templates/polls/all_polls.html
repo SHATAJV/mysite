@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{% extends "admin/base.html" %}
-<h1>Liste de tous les sondages</h1>
+{% extends "base.html" %}
 
+{% block title %}Liste des sondages{% endblock %}
+
+{% block main %}
+<h1>Liste de tous les sondages</h1>
 
 {% if all_questions %}
     <ul>
@@ -23,5 +19,4 @@
     <p>Aucun sondage disponible.</p>
 {% endif %}
 
-</body>
-</html>
+{% endblock %}
