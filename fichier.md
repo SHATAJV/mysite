@@ -424,5 +424,4 @@ class QuestionForm(forms.ModelForm):
 ```html
 {% extends "admin/base.html" %}
 ```
-![un image result](images/question5_3.png)
 ------------------------------------------------------------------------------------------------------
