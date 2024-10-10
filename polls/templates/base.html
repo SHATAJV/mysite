@@ -9,12 +9,18 @@
 </head>
 <body>
     <header>
-      <nav>
-                <ul>
-                    <li><a href="{% url 'polls:index' %}">Accueil</a></li>
-                    <li><a href="{% url 'polls:create_question' %}">Ajouter une question</a></li>
-                </ul>
-            </nav>
+        <nav>
+            <ul>
+                {% if user.is_authenticated %}
+                <li> Bienvenu  ({{ user.username }})</li>
+                <li><a href="{% url 'polls:logout' %}">Se déconnecter </a></li>
+                {% else %}
+                <li><a href="{% url 'polls:login' %}">Se connecter </a></li>
+                {% endif %}
+                <li><a href="{% url 'polls:index' %}">Accueil</a></li>
+                <li><a href="{% url 'polls:create_question' %}">Ajouter une question</a></li>
+            </ul>
+        </nav>
     </header>
 
     <main>

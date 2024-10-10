@@ -1,3 +1,5 @@
+
+from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
@@ -6,7 +8,30 @@ from django.utils import timezone
 
 from .forms import QuestionForm
 from .models import Choice, Question
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login
 
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('polls:index')
+    else:
+        form = AuthenticationForm()
+
+    return render(request, 'polls/login.html', {'form': form})
+def logout_view(request):
+    logout(request)
+    return redirect('polls:index')
+
+@login_required
 def create_question(request):
     if request.method == "POST":
         form = QuestionForm(request.POST)

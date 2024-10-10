@@ -466,3 +466,24 @@ class QuestionForm(forms.ModelForm):
 ```
 ![un image result](images/question5_4.png)
 --------------------------------------------------------------------------------------
+## 5.6  login.html:
+```python 
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>login page</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">ورود</button>
+  </form>
+{% endblock %}
+
+```
+
+## in urls.py
+
+```python 
+    path('login/', auth_views.LoginView.as_view(template_name='polls/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
+```
