@@ -418,4 +418,5 @@ class QuestionForm(forms.ModelForm):
                     Choice.objects.create(question=question, choice_text=choice)
         return question
 ```
+![un image result](images/question5_2.png)
 ------------------------------------------------------------------------------------------------------
