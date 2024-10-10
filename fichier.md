@@ -420,3 +420,9 @@ class QuestionForm(forms.ModelForm):
 ```
 ![un image result](images/question5_2.png)
 ------------------------------------------------------------------------------------------------------
+## 5_3: add in html : 
+```html
+{% extends "admin/base.html" %}
+```
+![un image result](images/question5_3.png)
+------------------------------------------------------------------------------------------------------
