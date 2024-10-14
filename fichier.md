@@ -6,7 +6,7 @@ admin.site.register(Choice)
 ```
 
 ## 2. Image
-## 3.OUI     
+## 3.Non     
 
 ## 4. Class QuestionAdmin
 
